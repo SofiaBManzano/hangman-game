@@ -1,11 +1,15 @@
 import "../styles/App.scss";
 import { useState } from "react";
-import font from "../fonts/KgTenThousandReasons-R1ll.ttf";
 
 function App() {
+  // Variables estado
   const [numberOfErrors, setNumberOfErrors] = useState(0);
   const [lastLetter, setLastLetter] = useState("");
   const word = "katakroker";
+  const correctLetters= [];
+  const errorLetters = [];
+  const validLetters = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","ñ","o","p","q","r","s","t","u","v","w","x","y","z"];
+
   const handleClickError = () => {
     if (numberOfErrors <= 14) {
       setNumberOfErrors(numberOfErrors + 1);
@@ -13,14 +17,15 @@ function App() {
   };
 
   const handleLastLetter = (ev) => {
-    const valueInput = ev.currentTarget.value;
-    setLastLetter(valueInput);
-    for (const letter of word) {
-      console.log(letter);
-      if (letter === valueInput) {
-        console.log("es igual");
-      } else {
-        console.log("es diferente");
+    const valueInput = ev.target.value.toLowerCase();
+    if(validLetters.includes(valueInput)){
+      setLastLetter(valueInput);
+      if(word.includes(valueInput)){
+        correctLetters.push(valueInput);
+        console.log(correctLetters);
+      }else{
+        errorLetters.push(valueInput);
+        handleClickError();
       }
     }
   };
@@ -91,6 +96,7 @@ function App() {
       <button className="button" onClick={handleClickError}>
         Incrementar
       </button>
+      <p>{correctLetters}</p>
     </div>
   );
 }
