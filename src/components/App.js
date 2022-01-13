@@ -1,15 +1,29 @@
 import "../styles/App.scss";
-import { useState } from 'react';
+import { useState } from "react";
 import font from "../fonts/KgTenThousandReasons-R1ll.ttf";
 
 function App() {
-  const [numberOfErrors , setNumberOfErrors] = useState(0);
-  const handleClickError = () =>{
-    if(numberOfErrors <= 14){
-      setNumberOfErrors(numberOfErrors + 1)
+  const [numberOfErrors, setNumberOfErrors] = useState(0);
+  const [lastLetter, setLastLetter] = useState("");
+  const word = "katakroker";
+  const handleClickError = () => {
+    if (numberOfErrors <= 14) {
+      setNumberOfErrors(numberOfErrors + 1);
     }
-  }
+  };
 
+  const handleLastLetter = (ev) => {
+    const valueInput = ev.currentTarget.value;
+    setLastLetter(valueInput);
+    for (const letter of word) {
+      console.log(letter);
+      if (letter === valueInput) {
+        console.log("es igual");
+      } else {
+        console.log("es diferente");
+      }
+    }
+  };
   return (
     <div className="page">
       <header>
@@ -53,6 +67,8 @@ function App() {
               type="text"
               name="last-letter"
               id="last-letter"
+              value={lastLetter}
+              onChange={handleLastLetter}
             />
           </form>
         </section>
@@ -72,7 +88,9 @@ function App() {
           <span className="error-1 line"></span>
         </section>
       </main>
-      <button className='button' onClick={handleClickError}>Incrementar</button>
+      <button className="button" onClick={handleClickError}>
+        Incrementar
+      </button>
     </div>
   );
 }
