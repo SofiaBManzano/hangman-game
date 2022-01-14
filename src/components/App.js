@@ -18,7 +18,6 @@ function App() {
     }
   };
 
-  
   const handleLastLetter = (ev) => {
     // Recogemos el valor de la letra pulsada
     const valueInput = ev.target.value.toLowerCase();
