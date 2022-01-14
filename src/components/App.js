@@ -5,30 +5,47 @@ function App() {
   // Variables estado
   const [numberOfErrors, setNumberOfErrors] = useState(0);
   const [lastLetter, setLastLetter] = useState("");
+  const [correctLetters, setCorrectLetters]= useState([]); // Tiene que ser una variable estado porque luego voy a pintarla?
+  const [errorLetters, setErrorLetters] = useState([]); // Tiene que ser una variable estado porque luego voy a pintarla?
+  // Variables normales
   const word = "katakroker";
-  const correctLetters= [];
-  const errorLetters = [];
-  const validLetters = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","ñ","o","p","q","r","s","t","u","v","w","x","y","z"];
-
-  const handleClickError = () => {
+  const [wordArray, setWordArray] = useState(word.split(''));
+  // Incrementamos el numero de errores al fallar letra
+  // Interpolamos la variable estado numberOfErrors en la clase css que pinta el ahorcado
+  const renderError = () => {
     if (numberOfErrors <= 14) {
       setNumberOfErrors(numberOfErrors + 1);
     }
   };
 
+  
   const handleLastLetter = (ev) => {
+    // Recogemos el valor de la letra pulsada
     const valueInput = ev.target.value.toLowerCase();
-    if(validLetters.includes(valueInput)){
+    if(valueInput.match('^[a-zA-ZáäéëíïóöúüÁÄÉËÍÏÓÖÚÜñÑ]?$')){
+      // la guardamos en la variable estado lastLetter
       setLastLetter(valueInput);
-      if(word.includes(valueInput)){
-        correctLetters.push(valueInput);
-        console.log(correctLetters);
-      }else{
-        errorLetters.push(valueInput);
-        handleClickError();
+      if(wordArray.includes(valueInput)){ // Solo si la letra valida esta contenida en nuestra palabra
+        // La guardamos en el array de letras correctas?
+        setCorrectLetters([...correctLetters, valueInput]);
+      }else{ // Si nuestra palabra no contiene la letra pulsada
+        // Aumentamos el numero de errores
+        renderError();
+        // La guardamos en el array de letras erroneas?
+        setErrorLetters([...errorLetters, valueInput]);
       }
     }
   };
+
+  const renderSolutionLetters = () => {
+
+    wordArray.map(letter => {
+      console.log(letter);
+      return <li>{letter}</li>
+    })
+  }
+
+  // React renderiza/re-renderiza...
   return (
     <div className="page">
       <header>
@@ -39,7 +56,8 @@ function App() {
           <div className="solution">
             <h2 className="title">Solución:</h2>
             <ul className="letters">
-              <li className="letter">k</li>
+              {renderSolutionLetters()} 
+{/*               <li className="letter">k</li>
               <li className="letter">a</li>
               <li className="letter"></li>
               <li className="letter">a</li>
@@ -48,7 +66,7 @@ function App() {
               <li className="letter"></li>
               <li className="letter">k</li>
               <li className="letter">e</li>
-              <li className="letter">r</li>
+              <li className="letter">r</li> */}
             </ul>
           </div>
           <div className="error">
@@ -93,10 +111,6 @@ function App() {
           <span className="error-1 line"></span>
         </section>
       </main>
-      <button className="button" onClick={handleClickError}>
-        Incrementar
-      </button>
-      <p>{correctLetters}</p>
     </div>
   );
 }
