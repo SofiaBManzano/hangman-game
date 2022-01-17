@@ -5,11 +5,12 @@ function App() {
   // Variables estado
   const [numberOfErrors, setNumberOfErrors] = useState(0);
   const [lastLetter, setLastLetter] = useState("");
-  const [correctLetters, setCorrectLetters] = useState([]); // Tiene que ser una variable estado porque luego voy a pintarla?
-  const [errorLetters, setErrorLetters] = useState([]); // Tiene que ser una variable estado porque luego voy a pintarla?
+  //const [correctLetters, setCorrectLetters] = useState([]); // Tiene que ser una variable estado porque luego voy a pintarla?
+  const [userLetters, setUserLetters] = useState([]); // Tiene que ser una variable estado porque luego voy a pintarla?
+
   // Variables normales
-  const word = "katakroker";
-  const [wordArray, setWordArray] = useState(word.split(""));
+  const word = "patata";
+  //const [wordArray, setWordArray] = useState("word.split('')");
   // Incrementamos el numero de errores al fallar letra
   // Interpolamos la variable estado numberOfErrors en la clase css que pinta el ahorcado
   const renderError = () => {
@@ -24,24 +25,45 @@ function App() {
     if (valueInput.match("^[a-zA-ZáäéëíïóöúüÁÄÉËÍÏÓÖÚÜñÑ]?$")) {
       // la guardamos en la variable estado lastLetter
       setLastLetter(valueInput);
-      if (wordArray.includes(valueInput)) {
+      if (word.includes(valueInput)) {
         // Solo si la letra valida esta contenida en nuestra palabra
         // La guardamos en el array de letras correctas?
-        setCorrectLetters([...correctLetters, valueInput]);
+        //setCorrectLetters([...correctLetters, valueInput]);
       } else {
         // Si nuestra palabra no contiene la letra pulsada
         // Aumentamos el numero de errores
         renderError();
-        // La guardamos en el array de letras erroneas?
-        setErrorLetters([...errorLetters, valueInput]);
+      }
+      //guardamos cada letra q se mete en el input en un nuevo array
+      if (valueInput !== "") {
+        setUserLetters([...userLetters, valueInput]);
       }
     }
   };
+  const wordLetters = word.split("");
+  const renderErrorLetters = () => {
+    const errorLetters = userLetters.filter(
+      (letter) => wordLetters.includes(letter) === false
+    );
+    return errorLetters.map((letter, index) => {
+      return (
+        <li key={index} className="letter">
+          {letter}
+        </li>
+      );
+    });
+    // if (wordLetters.filter((letter) => letter === lastLetter)) {
+    //   console.log("esta dentro de word");
+    // } else {
+    //   console.log("no esta dentro de word");
+    // }
+  };
 
   const renderSolutionLetters = () => {
-    //wordArray.map(letter => {
-    // console.log(letter);
-    // return <li>{letter}</li>
+    //transformo word en un array y lo meto en una constante
+
+    //recorro el array y me devuelve los li con cada letra del array
+
     return wordLetters.map((letter, index) => {
       if (userLetters.includes(letter)) {
         return (
@@ -82,11 +104,12 @@ function App() {
           <div className="error">
             <h2 className="title">Letras falladas:</h2>
             <ul className="letters">
-              <li className="letter">f</li>
+              {renderErrorLetters()}
+              {/*   <li className="letter">f</li>
               <li className="letter">q</li>
               <li className="letter">h</li>
               <li className="letter">p</li>
-              <li className="letter">x</li>
+              <li className="letter">x</li>*/}
             </ul>
           </div>
           <form className="form">
