@@ -2,14 +2,24 @@ import "../styles/App.scss";
 import { useState } from "react";
 
 function App() {
+  
   // Variables estado
   const [numberOfErrors, setNumberOfErrors] = useState(0);
   const [lastLetter, setLastLetter] = useState("");
   const [correctLetters, setCorrectLetters]= useState([]); // Tiene que ser una variable estado porque luego voy a pintarla?
   const [errorLetters, setErrorLetters] = useState([]); // Tiene que ser una variable estado porque luego voy a pintarla?
+  
   // Variables normales
   const word = "katakroker";
-  const [wordArray, setWordArray] = useState(word.split(''));
+  const wordArray = word.split('');
+
+  // Pintamos palabra del juego
+  const renderSolutionLetters = () => {
+    return wordArray.map((letter, index) => {
+      return <li key={index}>{letter}</li>
+    })
+  }
+  
   // Incrementamos el numero de errores al fallar letra
   // Interpolamos la variable estado numberOfErrors en la clase css que pinta el ahorcado
   const renderError = () => {
@@ -36,14 +46,6 @@ function App() {
     }
   };
 
-  const renderSolutionLetters = () => {
-
-    wordArray.map(letter => {
-      console.log(letter);
-      return <li>{letter}</li>
-    })
-  }
-
   // React renderiza/re-renderiza...
   return (
     <div className="page">
@@ -56,16 +58,6 @@ function App() {
             <h2 className="title">Solución:</h2>
             <ul className="letters">
               {renderSolutionLetters()} 
-{/*               <li className="letter">k</li>
-              <li className="letter">a</li>
-              <li className="letter"></li>
-              <li className="letter">a</li>
-              <li className="letter">k</li>
-              <li className="letter">r</li>
-              <li className="letter"></li>
-              <li className="letter">k</li>
-              <li className="letter">e</li>
-              <li className="letter">r</li> */}
             </ul>
           </div>
           <div className="error">
