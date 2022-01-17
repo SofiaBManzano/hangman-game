@@ -5,11 +5,12 @@ function App() {
   // Variables estado
   const [numberOfErrors, setNumberOfErrors] = useState(0);
   const [lastLetter, setLastLetter] = useState("");
-  const [correctLetters, setCorrectLetters]= useState([]); // Tiene que ser una variable estado porque luego voy a pintarla?
-  const [errorLetters, setErrorLetters] = useState([]); // Tiene que ser una variable estado porque luego voy a pintarla?
+  //const [correctLetters, setCorrectLetters] = useState([]); // Tiene que ser una variable estado porque luego voy a pintarla?
+  const [userLetters, setUserLetters] = useState([]); // Tiene que ser una variable estado porque luego voy a pintarla?
+
   // Variables normales
-  const word = "katakroker";
-  const [wordArray, setWordArray] = useState(word.split(''));
+  const word = "pepino";
+  //const [wordArray, setWordArray] = useState("word.split('')");
   // Incrementamos el numero de errores al fallar letra
   // Interpolamos la variable estado numberOfErrors en la clase css que pinta el ahorcado
   const renderError = () => {
@@ -21,28 +22,42 @@ function App() {
   const handleLastLetter = (ev) => {
     // Recogemos el valor de la letra pulsada
     const valueInput = ev.target.value.toLowerCase();
-    if(valueInput.match('^[a-zA-ZáäéëíïóöúüÁÄÉËÍÏÓÖÚÜñÑ]?$')){
+    if (valueInput.match("^[a-zA-ZáäéëíïóöúüÁÄÉËÍÏÓÖÚÜñÑ]?$")) {
       // la guardamos en la variable estado lastLetter
       setLastLetter(valueInput);
-      if(wordArray.includes(valueInput)){ // Solo si la letra valida esta contenida en nuestra palabra
+      if (word.includes(valueInput)) {
+        // Solo si la letra valida esta contenida en nuestra palabra
         // La guardamos en el array de letras correctas?
-        setCorrectLetters([...correctLetters, valueInput]);
-      }else{ // Si nuestra palabra no contiene la letra pulsada
+        //setCorrectLetters([...correctLetters, valueInput]);
+      } else {
+        // Si nuestra palabra no contiene la letra pulsada
         // Aumentamos el numero de errores
         renderError();
-        // La guardamos en el array de letras erroneas?
-        setErrorLetters([...errorLetters, valueInput]);
       }
+      //guardamos cada letra q se mete en el input en un nuevo array
+      setUserLetters([...userLetters, valueInput]);
     }
   };
-
+  const renderErrorLetters = () => {
+    userLetters.filter((letter) => letter === word.split(""));
+  };
   const renderSolutionLetters = () => {
+    //transformo word en un array y lo meto en una constante
+    const wordLetters = word.split("");
+    //recorro el array y me devuelve los li con cada letra del array
 
-    wordArray.map(letter => {
-      console.log(letter);
-      return <li>{letter}</li>
-    })
-  }
+    return wordLetters.map((letter, index) => {
+      if (userLetters.includes(letter)) {
+        return (
+          <li key={index} className="letter">
+            {letter}
+          </li>
+        );
+      } else {
+        return <li key={index} className="letter"></li>;
+      }
+    });
+  };
 
   // React renderiza/re-renderiza...
   return (
@@ -55,8 +70,8 @@ function App() {
           <div className="solution">
             <h2 className="title">Solución:</h2>
             <ul className="letters">
-              {renderSolutionLetters()} 
-{/*               <li className="letter">k</li>
+              {renderSolutionLetters()}
+              {/*               <li className="letter">k</li>
               <li className="letter">a</li>
               <li className="letter"></li>
               <li className="letter">a</li>
@@ -71,11 +86,12 @@ function App() {
           <div className="error">
             <h2 className="title">Letras falladas:</h2>
             <ul className="letters">
-              <li className="letter">f</li>
+              {renderErrorLetters()}
+              {/*   <li className="letter">f</li>
               <li className="letter">q</li>
               <li className="letter">h</li>
               <li className="letter">p</li>
-              <li className="letter">x</li>
+              <li className="letter">x</li>*/}
             </ul>
           </div>
           <form className="form">
