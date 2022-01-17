@@ -42,9 +42,11 @@ function App() {
   };
   const wordLetters = word.split("");
   const renderErrorLetters = () => {
+    //estoy filtrando las letter de userLetters que NO esten incluidas en wordLetters
     const errorLetters = userLetters.filter(
-      (letter) => wordLetters.includes(letter) === false
+      (letter) => !wordLetters.includes(letter)
     );
+    //recorro el array errorLetters y me retorna la letra fallada
     return errorLetters.map((letter, index) => {
       return (
         <li key={index} className="letter">
