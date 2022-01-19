@@ -1,52 +1,54 @@
 import "../styles/App.scss";
-import { useState } from "react";
+import callToApi from "../services/api";
+import { useState, useEffect } from "react";
 
 function App() {
-  // Variables estado
+  // ESTADO
   const [numberOfErrors, setNumberOfErrors] = useState(0);
   const [lastLetter, setLastLetter] = useState("");
-  //const [correctLetters, setCorrectLetters] = useState([]); // Tiene que ser una variable estado porque luego voy a pintarla?
-  const [userLetters, setUserLetters] = useState([]); // Tiene que ser una variable estado porque luego voy a pintarla?
+  const [userLetters, setUserLetters] = useState([]);
+  const [word, setWord] = useState("");
+  const [wordLetters, setWordLetters] = useState([]);
 
-  // Variables normales
-  const word = "patata";
-  //const [wordArray, setWordArray] = useState("word.split('')");
-  // Incrementamos el numero de errores al fallar letra
-  // Interpolamos la variable estado numberOfErrors en la clase css que pinta el ahorcado
+  // API
+  useEffect(() => {
+    callToApi().then((responseData) => {
+      setWord(responseData);
+      setWordLetters(responseData.split(""));
+    });
+  }, []);
+
+  // MANEJADORAS
+  const handleLastLetter = (ev) => {
+    const valueInput = ev.target.value.toLowerCase(); // Recogemos el valor de la letra pulsada
+    if (valueInput.match("^[a-zA-ZáäéëíïóöúüÁÄÉËÍÏÓÖÚÜñÑ]?$")) {
+      setLastLetter(valueInput); // La validamos y la guardamos en la variable estado lastLetter
+      if (!word.includes(valueInput)) {
+        // Si nuestra palabra no contiene la letra pulsada, aumentamos el numero de errores
+        renderError();
+      }
+      if (valueInput !== "") {
+        //guardamos la letra introducida en el array userLetters
+        setUserLetters([...userLetters, valueInput]);
+      }
+    }
+  };
+
+  // RENDER
   const renderError = () => {
+    // Incrementamos el numero de errores al fallar letra
+    // Interpolamos la variable estado numberOfErrors en la clase css que pinta el ahorcado
     if (numberOfErrors <= 14) {
       setNumberOfErrors(numberOfErrors + 1);
     }
   };
 
-  const handleLastLetter = (ev) => {
-    // Recogemos el valor de la letra pulsada
-    const valueInput = ev.target.value.toLowerCase();
-    if (valueInput.match("^[a-zA-ZáäéëíïóöúüÁÄÉËÍÏÓÖÚÜñÑ]?$")) {
-      // la guardamos en la variable estado lastLetter
-      setLastLetter(valueInput);
-      if (word.includes(valueInput)) {
-        // Solo si la letra valida esta contenida en nuestra palabra
-        // La guardamos en el array de letras correctas?
-        //setCorrectLetters([...correctLetters, valueInput]);
-      } else {
-        // Si nuestra palabra no contiene la letra pulsada
-        // Aumentamos el numero de errores
-        renderError();
-      }
-      //guardamos cada letra q se mete en el input en un nuevo array
-      if (valueInput !== "") {
-        setUserLetters([...userLetters, valueInput]);
-      }
-    }
-  };
-  const wordLetters = word.split("");
   const renderErrorLetters = () => {
-    //estoy filtrando las letter de userLetters que NO esten incluidas en wordLetters
+    // Filtro las letter de userLetters que NO esten incluidas en wordLetters
     const errorLetters = userLetters.filter(
       (letter) => !wordLetters.includes(letter)
     );
-    //recorro el array errorLetters y me retorna la letra fallada
+    // Mapeo el array errorLetters y renderizo la letra fallada
     return errorLetters.map((letter, index) => {
       return (
         <li key={index} className="letter">
@@ -54,32 +56,26 @@ function App() {
         </li>
       );
     });
-    // if (wordLetters.filter((letter) => letter === lastLetter)) {
-    //   console.log("esta dentro de word");
-    // } else {
-    //   console.log("no esta dentro de word");
-    // }
   };
 
   const renderSolutionLetters = () => {
-    //transformo word en un array y lo meto en una constante
-
-    //recorro el array y me devuelve los li con cada letra del array
-
+    // Mapeo ee array wordLetters
     return wordLetters.map((letter, index) => {
       if (userLetters.includes(letter)) {
+        // Si encuentro la letra la pinto
         return (
           <li key={index} className="letter">
             {letter}
           </li>
         );
       } else {
+        // Si no la encuentra solo se pinta el guión bajo
         return <li key={index} className="letter"></li>;
       }
     });
   };
 
-  // React renderiza/re-renderiza...
+  // REACT RENDER HTML
   return (
     <div className="page">
       <header>
@@ -89,30 +85,11 @@ function App() {
         <section>
           <div className="solution">
             <h2 className="title">Solución:</h2>
-            <ul className="letters">
-              {renderSolutionLetters()}
-              {/*               <li className="letter">k</li>
-              <li className="letter">a</li>
-              <li className="letter"></li>
-              <li className="letter">a</li>
-              <li className="letter">k</li>
-              <li className="letter">r</li>
-              <li className="letter"></li>
-              <li className="letter">k</li>
-              <li className="letter">e</li>
-              <li className="letter">r</li> */}
-            </ul>
+            <ul className="letters">{renderSolutionLetters()}</ul>
           </div>
           <div className="error">
             <h2 className="title">Letras falladas:</h2>
-            <ul className="letters">
-              {renderErrorLetters()}
-              {/*   <li className="letter">f</li>
-              <li className="letter">q</li>
-              <li className="letter">h</li>
-              <li className="letter">p</li>
-              <li className="letter">x</li>*/}
-            </ul>
+            <ul className="letters">{renderErrorLetters()}</ul>
           </div>
           <form className="form">
             <label className="title" htmlFor="last-letter">
