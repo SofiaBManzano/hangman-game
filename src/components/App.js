@@ -1,6 +1,10 @@
 import "../styles/App.scss";
 import callToApi from "../services/api";
 import { useState, useEffect } from "react";
+import Header from "./Header";
+import LetrasFalladas from "./LetrasFalladas";
+import Dummy from "./Dummy";
+import SolutionLetters from "./SolutionLetters";
 
 function App() {
   // ESTADO
@@ -23,6 +27,7 @@ function App() {
     const valueInput = ev.target.value.toLowerCase(); // Recogemos el valor de la letra pulsada
     if (valueInput.match("^[a-zA-ZáäéëíïóöúüÁÄÉËÍÏÓÖÚÜñÑ]?$")) {
       setLastLetter(valueInput); // La validamos y la guardamos en la variable estado lastLetter
+
       if (!word.includes(valueInput)) {
         // Si nuestra palabra no contiene la letra pulsada, aumentamos el numero de errores
         renderError();
@@ -31,6 +36,7 @@ function App() {
         //guardamos la letra introducida en el array userLetters
         setUserLetters([...userLetters, valueInput]);
       }
+      // setLastLetter("");
     }
   };
 
@@ -43,54 +49,25 @@ function App() {
     }
   };
 
-  const renderErrorLetters = () => {
-    // Filtro las letter de userLetters que NO esten incluidas en wordLetters
-    const errorLetters = userLetters.filter(
-      (letter) => !wordLetters.includes(letter)
-    );
-    // Mapeo el array errorLetters y renderizo la letra fallada
-    return errorLetters.map((letter, index) => {
-      return (
-        <li key={index} className="letter">
-          {letter}
-        </li>
-      );
-    });
-  };
-
-  const renderSolutionLetters = () => {
-    // Mapeo ee array wordLetters
-    return wordLetters.map((letter, index) => {
-      if (userLetters.includes(letter)) {
-        // Si encuentro la letra la pinto
-        return (
-          <li key={index} className="letter">
-            {letter}
-          </li>
-        );
-      } else {
-        // Si no la encuentra solo se pinta el guión bajo
-        return <li key={index} className="letter"></li>;
-      }
-    });
-  };
-
   // REACT RENDER HTML
   return (
     <div className="page">
-      <header>
+      <Header />
+      {/* <header>
         <h1 className="header__title">Juego del ahorcado</h1>
-      </header>
+      </header> */}
       <main className="main">
         <section>
-          <div className="solution">
+          <SolutionLetters
+            userLetters={userLetters}
+            wordLetters={wordLetters}
+          />
+          {/* <div className="solution">
             <h2 className="title">Solución:</h2>
             <ul className="letters">{renderSolutionLetters()}</ul>
-          </div>
-          <div className="error">
-            <h2 className="title">Letras falladas:</h2>
-            <ul className="letters">{renderErrorLetters()}</ul>
-          </div>
+          </div> */}
+          <LetrasFalladas userLetters={userLetters} wordLetters={wordLetters} />
+
           <form className="form">
             <label className="title" htmlFor="last-letter">
               Escribe una letra:
@@ -107,21 +84,7 @@ function App() {
             />
           </form>
         </section>
-        <section className={`dummy error-${numberOfErrors}`}>
-          <span className="error-13 eye"></span>
-          <span className="error-12 eye"></span>
-          <span className="error-11 line"></span>
-          <span className="error-10 line"></span>
-          <span className="error-9 line"></span>
-          <span className="error-8 line"></span>
-          <span className="error-7 line"></span>
-          <span className="error-6 head"></span>
-          <span className="error-5 line"></span>
-          <span className="error-4 line"></span>
-          <span className="error-3 line"></span>
-          <span className="error-2 line"></span>
-          <span className="error-1 line"></span>
-        </section>
+        <Dummy numberOfErrors={numberOfErrors} />
       </main>
     </div>
   );
