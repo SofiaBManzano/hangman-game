@@ -5,6 +5,7 @@ import Header from "./Header";
 import LetrasFalladas from "./LetrasFalladas";
 import Dummy from "./Dummy";
 import SolutionLetters from "./SolutionLetters";
+import Form from "./Form";
 
 function App() {
   // ESTADO
@@ -23,8 +24,8 @@ function App() {
   }, []);
 
   // MANEJADORAS
-  const handleLastLetter = (ev) => {
-    const valueInput = ev.target.value.toLowerCase(); // Recogemos el valor de la letra pulsada
+  const changeLastLetter = (value) => {
+    const valueInput = value.toLowerCase(); // Recogemos el valor de la letra pulsada
     if (valueInput.match("^[a-zA-ZáäéëíïóöúüÁÄÉËÍÏÓÖÚÜñÑ]?$")) {
       setLastLetter(valueInput); // La validamos y la guardamos en la variable estado lastLetter
 
@@ -68,21 +69,7 @@ function App() {
           </div> */}
           <LetrasFalladas userLetters={userLetters} wordLetters={wordLetters} />
 
-          <form className="form">
-            <label className="title" htmlFor="last-letter">
-              Escribe una letra:
-            </label>
-            <input
-              autoComplete="off"
-              className="form__input"
-              maxLength="1"
-              type="text"
-              name="last-letter"
-              id="last-letter"
-              value={lastLetter}
-              onChange={handleLastLetter}
-            />
-          </form>
+          <Form lastLetter={lastLetter} changeLastLetter={changeLastLetter} />
         </section>
         <Dummy numberOfErrors={numberOfErrors} />
       </main>
