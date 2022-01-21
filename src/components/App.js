@@ -6,6 +6,10 @@ import LetrasFalladas from "./LetrasFalladas";
 import Dummy from "./Dummy";
 import SolutionLetters from "./SolutionLetters";
 import Form from "./Form";
+import Footer from "./Footer";
+import { Route, Switch } from "react-router-dom";
+import Instructions from "./Instructions";
+import Options from "./Options";
 
 function App() {
   // ESTADO
@@ -54,25 +58,35 @@ function App() {
   return (
     <div className="page">
       <Header />
-      {/* <header>
-        <h1 className="header__title">Juego del ahorcado</h1>
-      </header> */}
       <main className="main">
-        <section>
-          <SolutionLetters
-            userLetters={userLetters}
-            wordLetters={wordLetters}
-          />
-          {/* <div className="solution">
-            <h2 className="title">Solución:</h2>
-            <ul className="letters">{renderSolutionLetters()}</ul>
-          </div> */}
-          <LetrasFalladas userLetters={userLetters} wordLetters={wordLetters} />
-
-          <Form lastLetter={lastLetter} changeLastLetter={changeLastLetter} />
-        </section>
-        <Dummy numberOfErrors={numberOfErrors} />
+        <Switch>
+          <Route path="/instructions">
+            <Instructions />
+          </Route>
+          <Route path="/options">
+            <Options />
+          </Route>
+          <Route path="/">
+            <section>
+              <SolutionLetters
+                userLetters={userLetters}
+                wordLetters={wordLetters}
+              />
+              <LetrasFalladas
+                userLetters={userLetters}
+                wordLetters={wordLetters}
+              />
+              <Form
+                lastLetter={lastLetter}
+                changeLastLetter={changeLastLetter}
+              />
+            </section>
+            <Dummy numberOfErrors={numberOfErrors} />
+          </Route>
+        </Switch>
       </main>
+
+      <Footer />
     </div>
   );
 }
