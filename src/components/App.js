@@ -19,9 +19,12 @@ function App() {
   const [word, setWord] = useState("");
   const [wordLetters, setWordLetters] = useState([]);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   // API
   useEffect(() => {
     callToApi().then((responseData) => {
+      setIsLoading(true);
       setWord(responseData);
       setWordLetters(responseData.split(""));
     });
@@ -45,6 +48,16 @@ function App() {
     }
   };
 
+  // UPDATE
+
+  const updateWord = (value) => {
+    setWord(value);
+    setWordLetters(value.split(""));
+    setLastLetter("");
+    setUserLetters([]);
+    setNumberOfErrors(0);
+  };
+
   // RENDER
   const renderError = () => {
     // Incrementamos el numero de errores al fallar letra
@@ -64,13 +77,14 @@ function App() {
             <Instructions />
           </Route>
           <Route path="/options">
-            <Options />
+            <Options word={word} updateWord={updateWord} />
           </Route>
           <Route path="/">
             <section>
               <SolutionLetters
                 userLetters={userLetters}
                 wordLetters={wordLetters}
+                loading={isLoading}
               />
               <LetrasFalladas
                 userLetters={userLetters}
