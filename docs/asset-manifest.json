@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "./static/css/main.52954835.css",
+    "main.js": "./static/js/main.44ba62f4.js",
+    "static/media/coolvetica.otf": "./static/media/coolvetica.b9d8a93dec08b0ae6c19.otf",
+    "static/media/Blacklisted.ttf": "./static/media/Blacklisted.580120b8748bb21e9289.ttf",
+    "index.html": "./index.html",
+    "main.52954835.css.map": "./static/css/main.52954835.css.map",
+    "main.44ba62f4.js.map": "./static/js/main.44ba62f4.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.52954835.css",
+    "static/js/main.44ba62f4.js"
+  ]
+}
