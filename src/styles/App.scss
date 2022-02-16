@@ -13,7 +13,7 @@
   padding: 2rem;
   width: 100%;
   min-height: 100vh;
-  background-image: url("../images/blackboard.jpg");
+  background: white;
   background-size: cover;
   background-position: center center;
 }
@@ -153,13 +153,13 @@ $dummyTransitionTime: 1s;
     @for $s from 1 through $e {
       &.error-#{$e} {
         .error-#{$s}.line {
-          background-color: $dummyEnabledColor;
+          background-color: black;
         }
         .error-#{$s}.head {
-          border-color: $dummyEnabledColor;
+          border-color: black;
         }
         .error-#{$s}.eye {
-          color: $dummyEnabledColor;
+          color: black;
         }
       }
     }
@@ -195,7 +195,7 @@ $dummyTransitionTime: 1s;
   &__input {
     background-color: transparent;
     border: none;
-    border-bottom: 3px solid white;
+    border-bottom: 3px solid rgb(38, 245, 72);
     text-align: center;
     font-size: 4rem;
     outline: none;
@@ -219,19 +219,22 @@ $dummyTransitionTime: 1s;
 
 @keyframes borderBottomInput {
   from {
-    border-bottom-color: white;
+    border-bottom-color: rgb(38, 245, 72);
   }
   50% {
     border-bottom-color: transparent;
   }
   to {
-    border-bottom-color: white;
+    border-bottom-color: rgb(38, 245, 72);
   }
 }
 .header__title {
+  font-family: "bubble", sans-serif;
   padding-bottom: 2rem;
   font-size: 3rem;
   font-weight: bold;
+  letter-spacing: 5px;
+  color: rgb(38, 245, 72);
   text-align: center;
 }
 .instructions {
@@ -310,15 +313,18 @@ $dummyTransitionTime: 1s;
 // RESET
 
 @font-face {
-  font-family: "KgTenThousandReasons";
-  src: url("../fonts/KgTenThousandReasons-R1ll.ttf") format("truetype");
+  font-family: "bubble";
+  src: url("../fonts/Blacklisted.ttf") format("truetype");
 }
-
+@font-face {
+  font-family: "go";
+  src: url("../fonts/coolvetica.otf") format("truetype");
+}
 * {
-  font-family: "KgTenThousandReasons", sans-serif;
+  font-family: "go", sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-weight: normal;
-  color: white;
+  color: rgb(0, 0, 0);
 }
