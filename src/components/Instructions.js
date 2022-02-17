@@ -2,16 +2,16 @@ const Instructions = () => {
   return (
     <section className="instructions">
       <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos
-        provident nisi voluptatem est nostrum optio perferendis doloremque,
-        delectus at, assumenda suscipit sit odio ipsum error consequatur numquam
-        vero impedit nulla?
+        Usando una fila de guiones, se representa la palabra a adivinar, dando
+        el número de letras, números y categoría. Si le jugadorx adivinadorx
+        sugiere una letra o número que aparece en la palabra, le otrx jugadorx
+        la escribe en todas sus posiciones correctas. Si la letra o el número
+        sugerido no ocurre en la palabra, le otrx jugadorx saca un elemento de
+        la figura de hombre palo ahorcado como una marca de conteo.
       </p>
       <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium
-        animi voluptatem quis impedit amet in dicta soluta explicabo, fugit
-        magni mollitia, pariatur eos, repellendus aut esse recusandae minima eum
-        eaque.
+        En la pestaña "más opciones" de abajo, le usuarix podrá proponer una
+        palabra propia con la jugar contra el rival. ¡A jugar!
       </p>
     </section>
   );
