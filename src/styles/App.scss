@@ -8,6 +8,8 @@
   color: rgb(0, 0, 0);
 }
 .title {
+  padding-right: 20px;
+  padding-left: 20px;
   margin-top: 50px;
   display: block;
   font-size: 1.25rem;
@@ -18,11 +20,16 @@
 // PAGE
 
 .page {
-  //padding: 2rem;
+ padding: 2rem;
   width: 100%;
   min-height: 100vh;
-  background-size: cover;
-  background-position: center center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  
 }
 
 // MAIN
@@ -42,6 +49,7 @@ $dummyTransitionTime: 1s;
   position: relative;
   min-width: 15rem;
   height: 25rem;
+  margin: auto; 
 
   .line {
     position: absolute;
@@ -179,7 +187,7 @@ $dummyTransitionTime: 1s;
   justify-content: space-between;
   padding-top: 2rem;
 
-  padding: 30px;
+  padding: 20px;
   * {
     font-size: 0.75rem;
   }
@@ -221,6 +229,7 @@ $dummyTransitionTime: 1s;
     outline: none;
     animation-name: borderBottomInput;
     animation-duration: 2s;
+
     animation-iteration-count: infinite;
 
     &[maxLength="1"] {
@@ -228,7 +237,7 @@ $dummyTransitionTime: 1s;
     }
 
     &[maxLength="15"] {
-      width: 25rem;
+      width: 23rem;
     }
 
     &::selection {
@@ -261,7 +270,7 @@ $dummyTransitionTime: 1s;
 .instructions {
   max-width: 30rem;
   line-height: 2.25;
-
+  padding: 20px;
   p {
     padding-bottom: 2rem;
   }
